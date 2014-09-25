@@ -135,17 +135,17 @@ object SwingThingsTestApp extends SimpleSwingApplication {
 //          if(SwingUtilities.isRightMouseButton(mc.peer)) println("right mouse buttong clicked")
 //          if(SwingUtilities.isMiddleMouseButton(mc.peer)) println("middle mouse buttong clicked")
 //        }
-        case MouseClicked(source, point, mods, clicks, triggersPopup) => {
-          println(s"self: $self")
-          logger.debug(s"got mouse clicked at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")          
-        }
-        case MousePressed(source, point, mods, clicks, triggersPopup) => {
-          logger.debug(s"got mouse pressed at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-        }
-        case MouseReleased(source, point, mods, clicks, triggersPopup) => {
-          logger.debug(s"got mouse released at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-        }
-        case something                     => logger.debug(s"Got this: $something")
+//        case MouseClicked(source, point, mods, clicks, triggersPopup) => {
+//          println(s"self: $self")
+//          logger.debug(s"got mouse clicked at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")          
+//        }
+//        case MousePressed(source, point, mods, clicks, triggersPopup) => {
+//          logger.debug(s"got mouse pressed at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
+//        }
+//        case MouseReleased(source, point, mods, clicks, triggersPopup) => {
+//          logger.debug(s"got mouse released at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
+//        }
+//        case something                     => logger.debug(s"Got this: $something")
       }
     }
 
