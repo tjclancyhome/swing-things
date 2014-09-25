@@ -139,13 +139,13 @@ object SwingThingsTestApp extends SimpleSwingApplication {
           println(s"self: $self")
           logger.debug(s"got mouse clicked at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")          
         }
-//        case MousePressed(source, point, mods, clicks, triggersPopup) => {
-//          logger.debug(s"got mouse pressed at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-//        }
-//        case MouseReleased(source, point, mods, clicks, triggersPopup) => {
-//          logger.debug(s"got mouse released at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-//        }
-//        case something                     => logger.debug(s"Got this: $something")
+        case MousePressed(source, point, mods, clicks, triggersPopup) => {
+          logger.debug(s"got mouse pressed at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
+        }
+        case MouseReleased(source, point, mods, clicks, triggersPopup) => {
+          logger.debug(s"got mouse released at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
+        }
+        case something                     => logger.debug(s"Got this: $something")
       }
     }
 
