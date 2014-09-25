@@ -8,9 +8,10 @@
 	<inceptionYear>2014</inceptionYear>
 	<licenses>
 		<license>
-			<name>My License</name>
-			<url>http://....</url>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
 	<properties>
@@ -47,7 +48,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.7</version>
-		</dependency>						
+		</dependency>
 		<dependency>
 			<groupId>org.scala-lang.modules</groupId>
 			<artifactId>scala-swing_2.11</artifactId>
