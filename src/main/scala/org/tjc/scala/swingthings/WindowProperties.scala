@@ -10,9 +10,8 @@ import java.nio.file.Files.exists
 import java.nio.file.Paths
 
 import scala.util.Properties.userHome
-
-import org.tjc.scala.common.Implicits.PropertyConverters
-import org.tjc.scala.common.using
+import org.tjc.scala.swingthings.common._
+import org.tjc.scala.swingthings.common.Implicits._
 
 /** A simple class used for maitaining a window's state.
  *

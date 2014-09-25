@@ -2,16 +2,14 @@ package org.tjc.scala.swingthings
 
 import org.junit._
 import Assert._
-import org.tjc.scala.testmetrics.UnitTestSupport
 import scala.swing.MenuBar
 import scala.swing.Menu
 
 @Test
-class MenuBarsTest extends UnitTestSupport {
+class MenuBarsTest {
 
   @Test
   def appendMenuItem() {
-    println(makeBanner("appendMenuItem()"))
     val menuBars = MenuBars(new MenuBar())
     
     menuBars += new MenuEntry("File", new Menu("File"))
