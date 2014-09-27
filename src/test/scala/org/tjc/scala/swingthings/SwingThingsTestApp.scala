@@ -17,48 +17,38 @@
 
 package org.tjc.scala.swingthings
 
-import scala.swing.Action
-import scala.swing.BorderPanel
-import scala.swing.BorderPanel.Position.Center
-import scala.swing.BorderPanel.Position.North
-import scala.swing.BorderPanel.Position.South
-import scala.swing.Button
-import scala.swing.Font
-import scala.swing.Insets
-import scala.swing.Menu
-import scala.swing.MenuBar
-import scala.swing.MenuItem
-import scala.swing.Orientation
-import scala.swing.ScrollPane
-import scala.swing.Separator
-import scala.swing.SimpleSwingApplication
-import scala.swing.SplitPane
-import scala.swing.TabbedPane
-import scala.swing.TabbedPane.Page
-import scala.swing.TextArea
-import org.slf4j.LoggerFactory
-import com.typesafe.scalalogging.Logger
-import SwingThings.Nimbus
-import SwingThings.installedLookAndFeelNames
-import SwingThings.setLookAndFeelWithName
-import ToolBar.toolbarButton
-import org.tjc.scala.swingthings.tree.TreeNode
-import org.tjc.scala.swingthings.event.TreeExpanded
-import org.tjc.scala.swingthings.event.TreeCollapsed
-import scala.swing.event.MouseClicked
-import scala.swing.event.MousePressed
-import scala.swing.event.MouseReleased
-import org.tjc.scala.swingthings.event.TreeSelection
-import javax.swing.SwingUtilities
+import swing.{ Action, BorderPanel }
+import swing.{ Button, Font, Insets, Menu, MenuBar, MenuItem, Orientation, ScrollPane, Separator, SimpleSwingApplication, SplitPane, TabbedPane }
+import swing.BorderPanel.Position.{ Center, North, South }
+import swing.TabbedPane.Page
+import swing.TextArea
 
+import org.slf4j.LoggerFactory
+import org.tjc.scala.swingthings.event.{ TreeCollapsed, TreeExpanded, TreeSelection }
+import org.tjc.scala.swingthings.tree.TreeNode
+
+import com.typesafe.scalalogging.Logger
+
+import SwingThings.{ Nimbus, installedLookAndFeelNames, setLookAndFeelWithName }
+import ToolBar.toolbarButton
+
+/** A test application that demonstrates the various controls, etc., in swing-things.
+ *
+ *  @author Thomas
+ *
+ */
 object SwingThingsTestApp extends SimpleSwingApplication {
   import SwingThings._
   private val logger = Logger(LoggerFactory.getLogger(getClass()))
-
+  
+  System.setProperty("awt.useSystemAAFontSettings","on");
+  System.setProperty("swing.aatext", "true");
+  
   private val appTitle = "SwingThings Test App"
 
   setLookAndFeelWithName(Nimbus)
-
+  //setSystemLookAndFeel()
+  
   logger.debug(s"Starting application: $appTitle")
 
   def top = new SwingThingsMainFrame(appTitle) {
@@ -106,7 +96,20 @@ object SwingThingsTestApp extends SimpleSwingApplication {
 
     val toolBar = new ToolBar {
       import ToolBar._
+      contents += toolbarButton("new_document_24.png", Action("") {}, "Create a new file")
       contents += toolbarButton("open_document_24.png", Action("") {}, "Open a file")
+      contents += toolbarButton("save_24.png", Action("") {}, "Save file")
+      addSeparator()
+      contents += toolbarButton("undo_24.png", Action("") {}, "Undo")
+      contents += toolbarButton("redo_24.png", Action("") {}, "Redo")
+      addSeparator()
+      contents += toolbarButton("cut_clipboard_24.png", Action("") {}, "Cut")
+      contents += toolbarButton("copy_clipboard_24.png", Action("") {}, "Cut")
+      contents += toolbarButton("paste_clipboard_lined_24.png", Action("") {}, "Cut")
+      addSeparator()
+      contents += toolbarButton("search_24.png", Action("") {}, "Search")
+
+      rollover = true
     }
 
     //    val tree = new Tree {
@@ -127,25 +130,25 @@ object SwingThingsTestApp extends SimpleSwingApplication {
       listenTo(mouse.clicks)
 
       reactions += {
-        case TreeExpanded(tree, treePath)  => logger.debug(s"treeExpanded: treePath=$treePath, tree=$tree")
-        case TreeCollapsed(tree, treePath) => logger.debug(s"treeCollapsed: treePath=$treePath, tree=$tree")
+        case TreeExpanded(tree, treePath)                                   => logger.debug(s"treeExpanded: treePath=$treePath, tree=$tree")
+        case TreeCollapsed(tree, treePath)                                  => logger.debug(s"treeCollapsed: treePath=$treePath, tree=$tree")
         case TreeSelection(_, newSelPath, oldSelPath, treePath, _, isAdded) => logger.debug(s"treeSelection: $newSelPath, $oldSelPath, $treePath, $isAdded")
-//        case mc:MouseClicked => {
-//          if(SwingUtilities.isLeftMouseButton(mc.peer)) println("left mouse button clicked")
-//          if(SwingUtilities.isRightMouseButton(mc.peer)) println("right mouse buttong clicked")
-//          if(SwingUtilities.isMiddleMouseButton(mc.peer)) println("middle mouse buttong clicked")
-//        }
-//        case MouseClicked(source, point, mods, clicks, triggersPopup) => {
-//          println(s"self: $self")
-//          logger.debug(s"got mouse clicked at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")          
-//        }
-//        case MousePressed(source, point, mods, clicks, triggersPopup) => {
-//          logger.debug(s"got mouse pressed at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-//        }
-//        case MouseReleased(source, point, mods, clicks, triggersPopup) => {
-//          logger.debug(s"got mouse released at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-//        }
-//        case something                     => logger.debug(s"Got this: $something")
+        //        case mc:MouseClicked => {
+        //          if(SwingUtilities.isLeftMouseButton(mc.peer)) println("left mouse button clicked")
+        //          if(SwingUtilities.isRightMouseButton(mc.peer)) println("right mouse buttong clicked")
+        //          if(SwingUtilities.isMiddleMouseButton(mc.peer)) println("middle mouse buttong clicked")
+        //        }
+        //        case MouseClicked(source, point, mods, clicks, triggersPopup) => {
+        //          println(s"self: $self")
+        //          logger.debug(s"got mouse clicked at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")          
+        //        }
+        //        case MousePressed(source, point, mods, clicks, triggersPopup) => {
+        //          logger.debug(s"got mouse pressed at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
+        //        }
+        //        case MouseReleased(source, point, mods, clicks, triggersPopup) => {
+        //          logger.debug(s"got mouse released at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
+        //        }
+        //        case something                     => logger.debug(s"Got this: $something")
       }
     }
 
@@ -203,4 +206,5 @@ object SwingThingsTestApp extends SimpleSwingApplication {
     location = windowPrefs.point()
     size = windowPrefs.size
   }
+
 }

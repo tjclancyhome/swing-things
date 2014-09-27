@@ -17,30 +17,33 @@
 
 package org.tjc.scala.swingthings
 
-import swing._
-import swing.event._
-import javax.swing.{ JToolBar, SwingConstants, ImageIcon }
+import swing.{ Action, Button, Component, Insets, SequentialContainer }
+
+import javax.swing.{ ImageIcon, JToolBar, SwingConstants }
 
 /** A simple wrapper around JToolBar.
  *
  *  @author Thomas
  *
  */
-class ToolBar(val tbName: String, val orientation: Int) extends Component with SequentialContainer.Wrapper {
-  override lazy val peer: JToolBar = new JToolBar(tbName, orientation) with SuperMixin
+class ToolBar(val toolbarName: String, val orientation: Int) extends Component with SequentialContainer.Wrapper {
+  override lazy val peer: JToolBar = new JToolBar(toolbarName, orientation) with SuperMixin
 
-  def this(tbName: String) = this(tbName, SwingConstants.HORIZONTAL)
-  def this(orientation: Int) = this("", orientation)
-  def this() = this("", SwingConstants.HORIZONTAL)
+  def this(toolbarName: String) = this(toolbarName, SwingConstants.HORIZONTAL)
+  def this(orientation: Int) = this("default", orientation)
+  def this() = this(SwingConstants.HORIZONTAL)
 
   /*
    * Some convenient wrapper method.
    */
 
   def margin: Insets = peer.getMargin
-  def margin_=(insets: Insets) = peer.setMargin(insets)
+  def margin_=(insets: Insets) { peer.setMargin(insets) }
   def floatable: Boolean = peer.isFloatable
-  def floatable_=(b: Boolean) = peer.setFloatable(b)
+  def floatable_=(b: Boolean) { peer.setFloatable(b) }
+  def rollover: Boolean = peer.isRollover
+  def rollover_=(b: Boolean) { peer.setRollover(b) }
+  def addSeparator() { peer.addSeparator() }
 
 }
 
@@ -49,7 +52,15 @@ class ToolBar(val tbName: String, val orientation: Int) extends Component with S
  */
 object ToolBar {
   case object NoToolBar extends ToolBar
-  def toolbarButton(imageFileName: String, action: Action, tooltip: String): Button = {    
+
+  /** A factory method that creates a button for the toolbar.
+   *
+   *  @param imageFileName
+   *  @param action
+   *  @param tooltip
+   *  @return
+   */
+  def toolbarButton(imageFileName: String, action: Action, tooltip: String): Button = {
     new Button(action) {
       val buttonUrl = ClassLoader.getSystemResource("images/" + imageFileName)
       icon = new ImageIcon(buttonUrl, tooltip)

@@ -17,8 +17,10 @@
 
 package org.tjc.scala.swingthings.event
 
-import scala.swing.event.ComponentEvent
+import swing.event.ComponentEvent
+
 import org.tjc.scala.swingthings.Tree
+
 import javax.swing.tree.TreePath
 
 abstract class TreeEvent(override val source: Tree) extends ComponentEvent

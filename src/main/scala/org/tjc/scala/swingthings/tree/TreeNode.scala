@@ -17,9 +17,10 @@
 
 package org.tjc.scala.swingthings.tree
 
+import collection.JavaConversions.enumerationAsScalaIterator
+import collection.mutable.ArrayBuffer
+
 import javax.swing.tree.DefaultMutableTreeNode
-import scala.collection.JavaConversions._
-import scala.collection.mutable.ArrayBuffer
 
 class TreeNode(val data: Any) {
   private val children = new ArrayBuffer[TreeNode]()

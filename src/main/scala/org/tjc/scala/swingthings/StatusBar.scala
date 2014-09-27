@@ -17,45 +17,53 @@
 
 package org.tjc.scala.swingthings
 
-import scala.swing._
-import BorderPanel.Position._
+import swing.{ Dimension, Label, ProgressBar }
+import swing.BorderPanel
+import swing.BorderPanel.Position.{ East, West }
+
 import javax.swing.border.EtchedBorder
 
+/** A simple status bar control that embeds a message and a
+ *  progress bar.
+ *
+ *  @author Thomas
+ *
+ */
 class StatusBar(val width: Int = 640, val height: Int = 25) extends BorderPanel {
   private var message = ""
-  private val label = new Label(message) 
+  private val label = new Label(message)
   private var pb = new ProgressBar {
     visible = false
     paintBorder(false)
     min = 0
     max = 100
   }
-  
-  preferredSize= new Dimension(640, height)
+
+  preferredSize = new Dimension(640, height)
 
   layout(label) = West
   layout(pb) = East
-  
+
   border = new EtchedBorder(EtchedBorder.LOWERED)
-  
+
   def statusMessage = message
   def statusMessage_=(msg: String) {
     message = msg
     label.text = message
   }
-  
+
   def progressBar = pb
   def progressBar_=(pb: ProgressBar) {
     this.pb = pb
     this.pb.visible = true
   }
-  
+
   def showProgressBar {
     progressBar.visible = true
     statusMessage = "Loading file..."
     this.revalidate
   }
-  
+
   def hideProgressBar {
     progressBar.visible = false
     statusMessage = ""

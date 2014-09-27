@@ -17,10 +17,9 @@
 
 package org.tjc.scala.swingthings
 
-import java.util.prefs.Preferences
-import java.awt.Point
-import java.awt.Dimension
+import java.awt.{Dimension, Point}
 import java.io.ByteArrayOutputStream
+import java.util.prefs.Preferences
 
 class WindowPreferences(val appName: String) {
   private val prefs = Preferences.userRoot().node(appName.replace(" ", ""))

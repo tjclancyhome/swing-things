@@ -17,18 +17,15 @@
 
 package org.tjc.scala.swingthings
 
-import java.awt.Dimension
-import java.awt.Point
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.nio.file.Files.createDirectories
-import java.nio.file.Files.exists
+import java.awt.{Dimension, Point}
+import java.io.{File, FileInputStream, FileOutputStream}
+import java.nio.file.Files.{createDirectories, exists}
 import java.nio.file.Paths
 
-import scala.util.Properties.userHome
-import org.tjc.scala.swingthings.common._
-import org.tjc.scala.swingthings.common.Implicits._
+import util.Properties.userHome
+
+import org.tjc.scala.swingthings.common.Implicits.PropertyConverters
+import org.tjc.scala.swingthings.common.using
 
 /** A simple class used for maitaining a window's state.
  *  

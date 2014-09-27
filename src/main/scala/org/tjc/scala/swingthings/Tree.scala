@@ -17,26 +17,19 @@
 
 package org.tjc.scala.swingthings
 
-import swing._
-import event._
-import javax.swing._
-import org.tjc.scala.swingthings.tree.TreeNode
-import java.io.PrintWriter
-import java.io.PrintStream
-import javax.swing.tree.TreeModel
-import javax.swing.event.TreeModelListener
-import javax.swing.event.TreeModelEvent
-import javax.swing.tree.DefaultMutableTreeNode
-import javax.swing.tree.DefaultTreeModel
+import java.io.{PrintStream, PrintWriter}
+
+import swing.{Component, Publisher}
+
 import org.slf4j.LoggerFactory
+import org.tjc.scala.swingthings.tree.TreeNode
+
 import com.typesafe.scalalogging.Logger
-import javax.swing.event.TreeExpansionListener
-import javax.swing.event.TreeExpansionEvent
-import javax.swing.event.TreeSelectionListener
-import javax.swing.event.TreeSelectionEvent
-import javax.swing.event.TreeWillExpandListener
-import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
+
+import event.{TreeCollapsed, TreeExpanded, TreeNodesChanged, TreeNodesInserted, TreeNodesRemoved, TreeSelection, TreeStructureChanged, TreeWillCollapse, TreeWillExpand}
+import javax.swing.JTree
+import javax.swing.event.{TreeExpansionEvent, TreeExpansionListener, TreeModelEvent, TreeModelListener, TreeSelectionEvent, TreeSelectionListener, TreeWillExpandListener}
+import javax.swing.tree.{DefaultTreeModel, TreeModel}
 
 /** A simple wrapper around JTree.
  *

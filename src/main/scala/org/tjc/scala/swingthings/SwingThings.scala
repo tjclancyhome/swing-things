@@ -17,8 +17,9 @@
 
 package org.tjc.scala.swingthings
 
-import scala.swing.Component
-import scala.swing.Frame
+import swing.Component
+
+import javax.swing.{SwingUtilities, SwingWorker, UIManager}
 
 /** Similar in some respects to javax.swing.UIManager with some more
  *  convenience methods

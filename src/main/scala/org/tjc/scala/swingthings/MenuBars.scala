@@ -17,11 +17,10 @@
 
 package org.tjc.scala.swingthings
 
-import scala.swing._
-import scala.swing.event._
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.mutable.TreeSet
-import scala.collection.mutable.HashMap
+import collection.mutable.HashMap
+import swing.{ Action, Component, Menu, MenuBar, MenuItem }
+
+import SwingThings.{ installedLookAndFeelNames, setLookAndFeelWithName, updateComponentTreeUI }
 
 class MenuEntry(val name: String, val menu: Menu) {
   private val subMenus = new HashMap[String, MenuEntry]()
@@ -50,6 +49,13 @@ class MenuEntry(val name: String, val menu: Menu) {
   }
 }
 
+/** There was a good reason for attempting this.  The idea was that I wanted
+ *  to build the menu bar and add the behaviour (actions) later. So this was
+ *  kind of a failed experiment.
+ *
+ *  @author Thomas
+ *
+ */
 class MenuBars(val menuBar: MenuBar) {
   private val menus = HashMap[String, MenuEntry]()
 
@@ -68,9 +74,9 @@ class MenuBars(val menuBar: MenuBar) {
 }
 
 object MenuBars {
-  
+
   def apply(mb: MenuBar) = new MenuBars(mb)
-  
+
   def makeLookAndFeelMenu(comp: Component): Menu = {
     import SwingThings._
     val lAndFMenu = new Menu("Look and Feel") {
@@ -83,5 +89,5 @@ object MenuBars {
       })
     }
     lAndFMenu
-  }  
+  }
 }

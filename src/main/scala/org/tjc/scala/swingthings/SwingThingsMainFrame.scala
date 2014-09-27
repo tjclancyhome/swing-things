@@ -19,18 +19,26 @@ package org.tjc.scala.swingthings
 
 import java.awt.Rectangle
 
-import scala.swing.MainFrame
+import swing.MainFrame
+
 import org.slf4j.LoggerFactory
+
 import com.typesafe.scalalogging.Logger
 
+/** Extends MainFrame and adds automatic window size and position tracking via
+ *  the WindowsPreferences class.
+ *
+ *  @author Thomas
+ *
+ */
 class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFrame {
   private val logger = Logger(LoggerFactory.getLogger(getClass()))
   private var preserve = true
-  
+
   title = appName;
-  
+
   logger.debug(s"Initializing application: $appName")
-  
+
   val windowPrefs = WindowPreferences(appName)
 
   def preserveState: Boolean = preserve
