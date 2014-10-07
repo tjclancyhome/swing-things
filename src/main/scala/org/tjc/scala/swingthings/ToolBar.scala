@@ -18,24 +18,20 @@
 package org.tjc.scala.swingthings
 
 import swing.{ Action, Button, Component, Insets, SequentialContainer }
-
 import javax.swing.{ ImageIcon, JToolBar, SwingConstants }
+import java.awt.Dimension
+import javax.accessibility.AccessibleContext
 
 /** A simple wrapper around JToolBar.
- *
- *  @author Thomas
- *
- */
-class ToolBar(val toolbarName: String, val orientation: Int) extends Component with SequentialContainer.Wrapper {
-  override lazy val peer: JToolBar = new JToolBar(toolbarName, orientation) with SuperMixin
+  *
+  * @author Thomas
+  *
+  */
+class ToolBar(val toolbarName: String, val orient: Int = SwingConstants.HORIZONTAL) extends Component with SequentialContainer.Wrapper {
+  override lazy val peer: JToolBar = new JToolBar(toolbarName, orient) with SuperMixin
 
-  def this(toolbarName: String) = this(toolbarName, SwingConstants.HORIZONTAL)
   def this(orientation: Int) = this("default", orientation)
-  def this() = this(SwingConstants.HORIZONTAL)
-
-  /*
-   * Some convenient wrapper method.
-   */
+  def this() = this("default")
 
   def margin: Insets = peer.getMargin
   def margin_=(insets: Insets) { peer.setMargin(insets) }
@@ -43,27 +39,56 @@ class ToolBar(val toolbarName: String, val orientation: Int) extends Component w
   def floatable_=(b: Boolean) { peer.setFloatable(b) }
   def rollover: Boolean = peer.isRollover
   def rollover_=(b: Boolean) { peer.setRollover(b) }
+  def orientation: Int = peer.getOrientation()
+  def orientation_=(orient: Int) { peer.setOrientation(orient) }
   def addSeparator() { peer.addSeparator() }
-
+  def addSeparator(dim: Dimension) { peer.addSeparator(dim) }
+  def accessibleContext: AccessibleContext = peer.getAccessibleContext()
 }
 
 /** @author Thomas
- *
- */
+  *
+  */
 object ToolBar {
   case object NoToolBar extends ToolBar
 
+  def apply(toolBarName: String): ToolBar = new ToolBar(toolBarName)
+  def apply(toolBarName: String, orientation: Int): ToolBar = new ToolBar(toolBarName, orientation)
+
   /** A factory method that creates a button for the toolbar.
-   *
-   *  @param imageFileName
-   *  @param action
-   *  @param tooltip
-   *  @return
-   */
-  def toolbarButton(imageFileName: String, action: Action, tooltip: String): Button = {
+    *
+    * @param imageFileName
+    * @param action
+    * @param tooltip
+    * @return
+    */
+  def toolbarButton(imageFileName: String, tooltipText: String = "", action: Action): Button = {
     new Button(action) {
       val buttonUrl = ClassLoader.getSystemResource("images/" + imageFileName)
-      icon = new ImageIcon(buttonUrl, tooltip)
+      icon = new ImageIcon(buttonUrl)
+      tooltip = tooltipText
+    }
+  }
+
+  /** Another factory method that lets you at the action body to the end of the method call.
+    *
+    * @param imageFileName
+    * @param tooltipText
+    * @param altText
+    * @param op
+    * @return
+    */
+  def makeToolBarButton(imageFileName: String, tooltipText: String = "", altText: String = "")(op: => Unit): Button = {
+    new Button(Action("")(op)) {
+      val buttonUrl = ClassLoader.getSystemResource("images/" + imageFileName)
+      if (buttonUrl != null) {
+        icon = new ImageIcon(buttonUrl)
+      }
+      else {
+        text = altText
+        System.err.println(s"Resource not found: $imageFileName")
+      }
+      tooltip = tooltipText
     }
   }
 }

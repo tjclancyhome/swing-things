@@ -45,18 +45,18 @@ class Tree extends Component with Publisher {
 
   override lazy val peer: JTree = new JTree() with SuperMixin
 
-  model = new DefaultTreeModel(TreeNode("root").peer)
+  model = new DefaultTreeModel(TreeNode("root"))
 
   def this(node: TreeNode) {
     this()
-    model = new DefaultTreeModel(node.peer)
+    model = new DefaultTreeModel(node)
   }
 
   def this(m: TreeModel) {
     this()
     model = m
   }
-
+  
   def list(printWriter: PrintWriter) { peer.list(printWriter) }
   def list(printStream: PrintStream) { peer.list(printStream) }
 
@@ -72,8 +72,13 @@ class Tree extends Component with Publisher {
     model.addTreeModelListener(modelListener)
   }
 
+  def root() = model.getRoot()
   def root_=(rootNode: TreeNode) {
-    model.setRoot(rootNode.peer)
+    model.setRoot(rootNode)
+  }
+  
+  def setRoot(node: TreeNode) {
+    model.setRoot(node)
   }
 
   protected val modelListener = new TreeModelListener {

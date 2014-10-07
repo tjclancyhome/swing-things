@@ -24,17 +24,42 @@ import Assert._
 class TreeNodeTest {
   import scala.collection.JavaConversions._
 
+  val root = new TreeNode("Root") {
+    add(new TreeNode("Foo") {
+      add(new TreeNode("Child Foo") {
+        add(new TreeNode("Child Child Foo"))
+      })
+    })
+    add(new TreeNode("Bar") {
+      add(new TreeNode("Child Bar") {
+        add(new TreeNode("Child Child Bar"))
+      })
+    })
+    add(new TreeNode("Baz") {
+      add(new TreeNode("Child Baz") {
+        add(new TreeNode("Child Child Baz"))
+      })
+    })
+  }
+
   @Test
-  def smoke() {
-    val root = TreeNode("Root")
-    val child1 = TreeNode("Child 1")
-    root += child1
-    val child2 = new TreeNode("Child 2")
-    root += child2
-    val grandChild1 = new TreeNode("Grandchild 1")
-    child1 += grandChild1
-    val grandChild2 = new TreeNode("Grandchild 2")
-    child2 += grandChild2
-    println(root)
+  def validateChildren() {
+    assertEquals("Foo", root.firstChild.toString())
+    assertEquals("Bar", root.childAfter(root.firstChild).toString)
+    assertEquals("Baz", root.childAfter(root.childAfter(root.firstChild)).toString)
+    assertEquals("Child Foo", root.firstChild.firstChild.toString())
+  }
+
+  @Test
+  def printTreeStructure() {
+    println(root.toFormattedString)
+  }
+
+  @Test
+  def treeNodeOps() {
+    assertEquals(3, root.childCount)
+    assertEquals(3, root.leafCount)
+    assertEquals(1, root.siblingCount)
+    assertEquals(3, root.depth)
   }
 }

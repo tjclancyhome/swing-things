@@ -29,26 +29,23 @@ import org.tjc.scala.swingthings.tree.TreeNode
 
 import com.typesafe.scalalogging.Logger
 
-import SwingThings.{ Nimbus, installedLookAndFeelNames, setLookAndFeelWithName }
-import ToolBar.toolbarButton
+import SwingThings.{ installedLookAndFeelNames, setSystemLookAndFeel }
+import ToolBarButton.toolBarButton2Button
 
 /** A test application that demonstrates the various controls, etc., in swing-things.
- *
- *  @author Thomas
- *
- */
+  *
+  * @author Thomas
+  *
+  */
 object SwingThingsTestApp extends SimpleSwingApplication {
   import SwingThings._
+
+  setSystemLookAndFeel()
+
   private val logger = Logger(LoggerFactory.getLogger(getClass()))
-  
-  System.setProperty("awt.useSystemAAFontSettings","on");
-  System.setProperty("swing.aatext", "true");
-  
+
   private val appTitle = "SwingThings Test App"
 
-  setLookAndFeelWithName(Nimbus)
-  //setSystemLookAndFeel()
-  
   logger.debug(s"Starting application: $appTitle")
 
   def top = new SwingThingsMainFrame(appTitle) {
@@ -95,38 +92,65 @@ object SwingThingsTestApp extends SimpleSwingApplication {
     }
 
     val toolBar = new ToolBar {
-      import ToolBar._
-      contents += toolbarButton("new_document_24.png", Action("") {}, "Create a new file")
-      contents += toolbarButton("open_document_24.png", Action("") {}, "Open a file")
-      contents += toolbarButton("save_24.png", Action("") {}, "Save file")
-      addSeparator()
-      contents += toolbarButton("undo_24.png", Action("") {}, "Undo")
-      contents += toolbarButton("redo_24.png", Action("") {}, "Redo")
-      addSeparator()
-      contents += toolbarButton("cut_clipboard_24.png", Action("") {}, "Cut")
-      contents += toolbarButton("copy_clipboard_24.png", Action("") {}, "Cut")
-      contents += toolbarButton("paste_clipboard_lined_24.png", Action("") {}, "Cut")
-      addSeparator()
-      contents += toolbarButton("search_24.png", Action("") {}, "Search")
+      import ToolBarButton._
 
-      rollover = true
+      contents += ToolBarButton("new_document_24.png", "Create new file") {
+        println("Created new file.")
+      }
+      contents += ToolBarButton("open_document_24.png", "Open a file") {
+        println("Opening a file...")
+      }
+      contents += ToolBarButton("save_24.png", "Save file") {
+        println("Saving a file...")
+      }
+      addSeparator()
+      contents += ToolBarButton("undo_24.png", "Undo") {
+        println("Undoing something...")
+      }
+      contents += ToolBarButton("redo_24.png", "Redo") {
+        println("Redoing something...")
+      }
+      addSeparator()
+      contents += ToolBarButton("cut_clipboard_24.png", "Cut") {
+        println("Cut something...")
+      }
+      contents += ToolBarButton("copy_clipboard_24.png", "Copy") {
+        println("Copied something...")
+      }
+      contents += ToolBarButton("paste_clipboard_lined_24.png", "Paste") {
+        println("Pasted something...")
+      }
+      addSeparator()
+      contents += ToolBarButton("search_24.png", "Search") {
+        println("Searching for something...")
+      }
+
+      rollover = false
     }
 
-    //    val tree = new Tree {
-    //      
-    //    }
+    val tree = new Tree {      
+      val rootNode = new TreeNode("Root") {
+        add(new TreeNode("Foo") {
+          add(new TreeNode("Child Foo") {
+            add(new TreeNode("Child Child Foo"))
+          })
+        })
+        add(new TreeNode("Bar") {
+          add(new TreeNode("Child Bar") {
+            add(new TreeNode("Child Child Bar"))
+          })
+        })
+        add(new TreeNode("Baz") {
+          add(new TreeNode("Child Baz") {
+            add(new TreeNode("Child Child Baz"))
+          })
+        })
+      }
 
-    val tree = new Tree {
-      val root = TreeNode("Root")
-      val child1 = TreeNode("Child 1")
-      root += child1
-      val child2 = new TreeNode("Child 2")
-      root += child2
-      val grandChild1 = new TreeNode("Grandchild 1")
-      child1 += grandChild1
-      val grandChild2 = new TreeNode("Grandchild 2")
-      child2 += grandChild2
-      root_=(root)
+      rootNode.showTreeNodes
+      
+      setRoot(rootNode)
+
       listenTo(mouse.clicks)
 
       reactions += {

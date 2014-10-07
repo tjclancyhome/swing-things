@@ -54,6 +54,11 @@
 			<artifactId>scala-swing_2.11</artifactId>
 			<version>1.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.typesafe</groupId>
+			<artifactId>config</artifactId>
+			<version>1.2.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src/main/scala</sourceDirectory>
