@@ -85,6 +85,11 @@ object SwingThings {
     import javax.swing.SwingUtilities
     SwingUtilities.updateComponentTreeUI(comp.self)
   }
+  
+  def updateComponentTree(comp: java.awt.Component) {
+    import javax.swing.SwingUtilities
+    SwingUtilities.updateComponentTreeUI(comp)    
+  }
 
   def task(t: => Unit, d: => Unit = {}): Task = Task(t, d)
 

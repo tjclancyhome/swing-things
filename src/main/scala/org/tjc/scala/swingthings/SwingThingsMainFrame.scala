@@ -65,5 +65,7 @@ class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFram
     quit()
   }
 
+  def mainFrame = this
+
   private def getBounds(): Rectangle = bounds
 }

@@ -26,7 +26,7 @@ import swing.TextArea
 import org.slf4j.LoggerFactory
 import org.tjc.scala.swingthings.event.{ TreeCollapsed, TreeExpanded, TreeSelection }
 import org.tjc.scala.swingthings.tree.TreeNode
-
+import org.tjc.scala.swingthings.MenuBars._
 import com.typesafe.scalalogging.Logger
 
 import SwingThings.{ installedLookAndFeelNames, setSystemLookAndFeel }
@@ -74,18 +74,19 @@ object SwingThingsTestApp extends SimpleSwingApplication {
         contents += new MenuItem(Action("Toggle Status Bar") {
           statusBar.visible = !statusBar.visible
         })
-        contents += new Menu("Look and Feel") {
-          installedLookAndFeelNames.foreach(n => {
-            contents += new MenuItem(Action(n) {
-              println(s"You selected look and feel: $n")
-            })
-          })
-        }
+        contents += makeLookAndFeelMenu(mainFrame)
+//        contents += new Menu("Look and Feel") {
+//          installedLookAndFeelNames.foreach(n => {
+//            contents += new MenuItem(Action(n) {
+//              println(s"You selected look and feel: $n")
+//            })
+//          })
+//        }
       }
       contents += new Menu("Window")
       contents += new Menu("Help")
     }
-
+    
     val button = new Button {
       text = "Press me!"
       enabled = true
