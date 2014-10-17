@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory
 import com.typesafe.scalalogging.Logger
 
 /** Extends MainFrame and adds automatic window size and position tracking via
- *  the WindowsPreferences class.
- *
- *  @author Thomas
- *
- */
+  * the WindowsPreferences class.
+  *
+  * @author Thomas
+  *
+  */
 class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFrame {
   private val logger = Logger(LoggerFactory.getLogger(getClass()))
   private var preserve = true
@@ -51,6 +51,7 @@ class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFram
       windowPrefs.windowHeight = b.height
       windowPrefs.windowX = b.x
       windowPrefs.windowY = b.y
+      windowPrefs.lookAndFeelName = SwingThings.currentLookAndFeelName
     }
   }
 
@@ -67,5 +68,22 @@ class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFram
 
   def mainFrame = this
 
+  def setLookAndFeel(name: String) {
+    import scala.swing.Swing._
+    import SwingThings._
+    onEDT {
+      setLookAndFeelWithName(name)
+      updateComponentTree(this.self)
+    }
+  }
+
   private def getBounds(): Rectangle = bounds
+
+  /*
+   * Initialization section.
+   */
+  location = windowPrefs.point()
+  size = windowPrefs.size
+  setLookAndFeel(windowPrefs.lookAndFeelName)
+
 }

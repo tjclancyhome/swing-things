@@ -41,7 +41,9 @@ object SwingThingsTestApp extends SimpleSwingApplication {
   import SwingThings._
 
   setSystemLookAndFeel()
-
+  
+  println(getCurrentLookAndFeel().getName())
+  
   private val logger = Logger(LoggerFactory.getLogger(getClass()))
 
   private val appTitle = "SwingThings Test App"
@@ -227,9 +229,5 @@ object SwingThingsTestApp extends SimpleSwingApplication {
       layout(splitter) = Center
       layout(statusBar) = South
     }
-
-    location = windowPrefs.point()
-    size = windowPrefs.size
   }
-
 }

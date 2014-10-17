@@ -17,9 +17,10 @@
 
 package org.tjc.scala.swingthings
 
-import java.awt.{Dimension, Point}
+import java.awt.{ Dimension, Point }
 import java.io.ByteArrayOutputStream
 import java.util.prefs.Preferences
+import SwingThings._
 
 class WindowPreferences(val appName: String) {
   private val prefs = Preferences.userRoot().node(appName.replace(" ", ""))
@@ -40,12 +41,15 @@ class WindowPreferences(val appName: String) {
   def point(): Point = new Point(windowX, windowY)
   def size(): Dimension = new Dimension(windowWidth, windowHeight)
 
+  def lookAndFeelName: String = prefs.get("lookAndFeel", Metal)
+  def lookAndFeelName_=(name: String) { prefs.put("lookAndFeel", name) }
+
   def toXmlString(): String = {
     val os = new ByteArrayOutputStream()
     prefs.exportSubtree(os)
     os.toString()
   }
-  
+
   override def toString = s"WindowPreferences(width=$windowWidth, height=$windowHeight, x=$windowX, y=$windowY)"
 }
 

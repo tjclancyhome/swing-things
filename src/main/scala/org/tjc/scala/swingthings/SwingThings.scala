@@ -18,15 +18,15 @@
 package org.tjc.scala.swingthings
 
 import swing.Component
-
-import javax.swing.{SwingUtilities, SwingWorker, UIManager}
+import javax.swing.{ SwingUtilities, SwingWorker, UIManager }
+import javax.swing.LookAndFeel
 
 /** Similar in some respects to javax.swing.UIManager with some more
- *  convenience methods
- *
- *  @author Thomas
- *
- */
+  * convenience methods
+  *
+  * @author Thomas
+  *
+  */
 object SwingThings {
   import javax.swing.UIManager
   import javax.swing.SwingWorker
@@ -41,10 +41,10 @@ object SwingThings {
   final val WindowsClassic = "Windows Classic"
 
   /** A case class that acts as the java swing UIManager.LookAndFeelInfo
-   *
-   *  @author Thomas
-   *
-   */
+    *
+    * @author Thomas
+    *
+    */
   case class LookAndFeelInfo(val name: String, val className: String)
 
   def installedLookAndFeels(): List[LookAndFeelInfo] = {
@@ -68,11 +68,21 @@ object SwingThings {
   def setLookAndFeel(className: String) { UIManager.setLookAndFeel(className) }
   def setLookAndFeelWithName(name: String) { UIManager.setLookAndFeel(getLookAndFeelInfoByName(name).className) }
   def setLookAndFeel(info: LookAndFeelInfo) { setLookAndFeel(info.className) }
+  def getCurrentLookAndFeel(): LookAndFeel = UIManager.getLookAndFeel()
+  def currentLookAndFeelName: String = {
+    val curr = UIManager.getLookAndFeel()
+    if (curr != null) {
+      curr.getName()
+    }
+    else {
+      ""
+    }
+  }
 
   /** This does a case-insensitive lookup but the lAndF name
-   *  @param lAndFName
-   *  @return
-   */
+    * @param lAndFName
+    * @return
+    */
   def getLookAndFeelInfoByName(lAndFName: String): LookAndFeelInfo = {
     val l = installedLookAndFeels.find(l => { l.name.toLowerCase() == lAndFName.toLowerCase() })
     l match {
@@ -85,10 +95,10 @@ object SwingThings {
     import javax.swing.SwingUtilities
     SwingUtilities.updateComponentTreeUI(comp.self)
   }
-  
+
   def updateComponentTree(comp: java.awt.Component) {
     import javax.swing.SwingUtilities
-    SwingUtilities.updateComponentTreeUI(comp)    
+    SwingUtilities.updateComponentTreeUI(comp)
   }
 
   def task(t: => Unit, d: => Unit = {}): Task = Task(t, d)

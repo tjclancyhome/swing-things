@@ -30,6 +30,7 @@ class WindowPreferencesTest {
     winPrefs.windowHeight = 768
     winPrefs.windowX = 5
     winPrefs.windowY = 5
+    winPrefs.lookAndFeelName = SwingThings.Metal
     println(winPrefs)
     println(winPrefs.toXmlString)
   }
