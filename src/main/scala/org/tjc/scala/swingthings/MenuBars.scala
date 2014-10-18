@@ -79,18 +79,26 @@ object MenuBars {
   def apply(mb: MenuBar) = new MenuBars(mb)
 
   def makeLookAndFeelMenu(comp: MainFrame): Menu = {
-    println("makeLookAndFeelMenu!")
     import SwingThings._
+    import scala.swing.Swing._
     val lAndFMenu = new Menu("Look and Feel") {
       val lAndFNames = installedLookAndFeelNames
       lAndFNames.foreach(n => {
         contents += new MenuItem(Action(n) {
-          import scala.swing.Swing._
           onEDT {
             setLookAndFeelWithName(n)
             updateComponentTree(comp.self)
           }
         })
+      })
+      /*
+       * This just defaults to the system's l&f.
+       */
+      contents += new MenuItem(Action("System") {
+        onEDT {
+          setSystemLookAndFeel()
+          updateComponentTree(comp.self)
+        }
       })
     }
     lAndFMenu

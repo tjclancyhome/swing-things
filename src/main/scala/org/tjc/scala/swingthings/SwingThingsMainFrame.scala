@@ -39,25 +39,33 @@ class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFram
 
   logger.debug(s"Initializing application: $appName")
 
-  val windowPrefs = WindowPreferences(appName)
+  private val windowPrefs = WindowPreferences(appName)
 
   def preserveState: Boolean = preserve
   def preserveState_=(preserve: Boolean) { this.preserve = preserve }
 
+  /** Override this to preseve any other preferences you might wish to save. You'll then need to
+    * override the initializeUserWindowPrefs() method to use them.
+    *
+    * @param prefs
+    */
+  protected def preserveUserWindowPrefs(prefs: WindowPreferences) {}
+
   protected def preserveWindowState() {
-    if (preserveState) {
-      val b = getBounds()
-      windowPrefs.windowWidth = b.width
-      windowPrefs.windowHeight = b.height
-      windowPrefs.windowX = b.x
-      windowPrefs.windowY = b.y
-      windowPrefs.lookAndFeelName = SwingThings.currentLookAndFeelName
-    }
+    val b = getBounds()
+    windowPrefs.windowWidth = b.width
+    windowPrefs.windowHeight = b.height
+    windowPrefs.windowX = b.x
+    windowPrefs.windowY = b.y
+    windowPrefs.lookAndFeelName = SwingThings.currentLookAndFeelName
   }
 
   def quit() {
     logger.debug("preserving window state...")
-    preserveWindowState()
+    if (preserveState) {
+      preserveWindowState()
+      preserveUserWindowPrefs(windowPrefs)
+    }
     logger.debug("exiting...")
     sys.exit(0)
   }
@@ -79,11 +87,23 @@ class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFram
 
   private def getBounds(): Rectangle = bounds
 
-  /*
-   * Initialization section.
-   */
-  location = windowPrefs.point()
-  size = windowPrefs.size
-  setLookAndFeel(windowPrefs.lookAndFeelName)
+  /** If you have overriden the preserveUserWindowPrefs then you need to override
+    * this method to make use of them on startup.
+    *
+    * @param prefs
+    */
+  protected def initializeUserWindowPrefs(prefs: WindowPreferences) {}
 
+  /** Initialize the window prefs.
+    */
+  protected def initializeWindowPrefs() {
+    if (preserveState) {
+      location = windowPrefs.point()
+      size = windowPrefs.size
+      setLookAndFeel(windowPrefs.lookAndFeelName)
+      initializeUserWindowPrefs(windowPrefs)
+    }
+  }
+
+  initializeWindowPrefs()
 }

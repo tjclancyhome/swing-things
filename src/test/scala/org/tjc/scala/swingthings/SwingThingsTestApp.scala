@@ -22,15 +22,16 @@ import swing.{ Button, Font, Insets, Menu, MenuBar, MenuItem, Orientation, Scrol
 import swing.BorderPanel.Position.{ Center, North, South }
 import swing.TabbedPane.Page
 import swing.TextArea
-
 import org.slf4j.LoggerFactory
 import org.tjc.scala.swingthings.event.{ TreeCollapsed, TreeExpanded, TreeSelection }
 import org.tjc.scala.swingthings.tree.TreeNode
 import org.tjc.scala.swingthings.MenuBars._
 import com.typesafe.scalalogging.Logger
-
 import SwingThings.{ installedLookAndFeelNames, setSystemLookAndFeel }
 import ToolBarButton.toolBarButton2Button
+import java.awt.Color
+import java.awt.Point
+import java.awt.Dimension
 
 /** A test application that demonstrates the various controls, etc., in swing-things.
   *
@@ -41,9 +42,9 @@ object SwingThingsTestApp extends SimpleSwingApplication {
   import SwingThings._
 
   setSystemLookAndFeel()
-  
+
   println(getCurrentLookAndFeel().getName())
-  
+
   private val logger = Logger(LoggerFactory.getLogger(getClass()))
 
   private val appTitle = "SwingThings Test App"
@@ -77,18 +78,11 @@ object SwingThingsTestApp extends SimpleSwingApplication {
           statusBar.visible = !statusBar.visible
         })
         contents += makeLookAndFeelMenu(mainFrame)
-//        contents += new Menu("Look and Feel") {
-//          installedLookAndFeelNames.foreach(n => {
-//            contents += new MenuItem(Action(n) {
-//              println(s"You selected look and feel: $n")
-//            })
-//          })
-//        }
       }
       contents += new Menu("Window")
       contents += new Menu("Help")
     }
-    
+
     val button = new Button {
       text = "Press me!"
       enabled = true
@@ -131,7 +125,7 @@ object SwingThingsTestApp extends SimpleSwingApplication {
       rollover = false
     }
 
-    val tree = new Tree {      
+    val tree = new Tree {
       val rootNode = new TreeNode("Root") {
         add(new TreeNode("Foo") {
           add(new TreeNode("Child Foo") {
@@ -151,35 +145,16 @@ object SwingThingsTestApp extends SimpleSwingApplication {
       }
 
       rootNode.showTreeNodes
-      
+
       setRoot(rootNode)
-
-      listenTo(mouse.clicks)
-
+      
       reactions += {
         case TreeExpanded(tree, treePath)                                   => logger.debug(s"treeExpanded: treePath=$treePath, tree=$tree")
         case TreeCollapsed(tree, treePath)                                  => logger.debug(s"treeCollapsed: treePath=$treePath, tree=$tree")
         case TreeSelection(_, newSelPath, oldSelPath, treePath, _, isAdded) => logger.debug(s"treeSelection: $newSelPath, $oldSelPath, $treePath, $isAdded")
-        //        case mc:MouseClicked => {
-        //          if(SwingUtilities.isLeftMouseButton(mc.peer)) println("left mouse button clicked")
-        //          if(SwingUtilities.isRightMouseButton(mc.peer)) println("right mouse buttong clicked")
-        //          if(SwingUtilities.isMiddleMouseButton(mc.peer)) println("middle mouse buttong clicked")
-        //        }
-        //        case MouseClicked(source, point, mods, clicks, triggersPopup) => {
-        //          println(s"self: $self")
-        //          logger.debug(s"got mouse clicked at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")          
-        //        }
-        //        case MousePressed(source, point, mods, clicks, triggersPopup) => {
-        //          logger.debug(s"got mouse pressed at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-        //        }
-        //        case MouseReleased(source, point, mods, clicks, triggersPopup) => {
-        //          logger.debug(s"got mouse released at point=$point, mods=$mods, clicks=$clicks, triggersPopup=$triggersPopup, source=$source")
-        //        }
-        //        case something                     => logger.debug(s"Got this: $something")
       }
     }
 
-    //deafTo(tree)
     listenTo(tree)
 
     val treeScroller = new ScrollPane {
@@ -205,6 +180,18 @@ object SwingThingsTestApp extends SimpleSwingApplication {
           peer.setMargin(new Insets(10, 10, 10, 10))
         }
       })
+      pages += new Page("Drag Stuff Around", new ScrollPane {
+        contents = new NullLayoutPanel {
+          background = Color.white
+          visible = true
+          add(DraggableImageComponent("images/1.png", new Point(20, 20)))
+          add(DraggableImageComponent("images/2.png", new Point(15, 15)))
+          add(DraggableImageComponent("images/3.png", new Point(10, 10)))
+          add(DraggableImageComponent("images/4.png", new Point(5, 5)))
+          add(DraggableImageComponent("images/5.png", new Point(0, 0)))
+          preferredSize = new Dimension(640, 480)
+        }
+      })
       pages += new Page("Another Tree", new ScrollPane {
         contents = new Tree(TreeNode("Root"))
       })
@@ -228,6 +215,14 @@ object SwingThingsTestApp extends SimpleSwingApplication {
       layout(toolBar) = North
       layout(splitter) = Center
       layout(statusBar) = South
+    }
+    
+    override def preserveUserWindowPrefs(prefs: WindowPreferences) {
+      prefs.put("UserPref1", "This is a user preference. You can name it whatever you like.")
+    }
+    
+    override def initializeUserWindowPrefs(prefs: WindowPreferences) {
+      logger.info(prefs.get("UserPref1", "This is the default."))
     }
   }
 }

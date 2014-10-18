@@ -44,6 +44,23 @@ class WindowPreferences(val appName: String) {
   def lookAndFeelName: String = prefs.get("lookAndFeel", Metal)
   def lookAndFeelName_=(name: String) { prefs.put("lookAndFeel", name) }
 
+  /*
+   * User-defined preferences
+   */
+
+  def put(key: String, value: String) { prefs.put(key, value) }
+  def get(key: String, defValue: String): String = prefs.get(key, defValue)
+  def putBoolean(key: String, value: Boolean) { prefs.putBoolean(key, value) }
+  def getBoolean(key: String, defValue: Boolean): Boolean = prefs.getBoolean(key, defValue)
+  def putInt(key: String, value: Int) { prefs.putInt(key, value) }
+  def getInt(key: String, defValue: Int): Int = prefs.getInt(key, defValue)
+  def putLong(key: String, value: Long) { prefs.putLong(key, value) }
+  def getLong(key: String, defValue: Long): Long = prefs.getLong(key, defValue)
+  def putDouble(key: String, value: Double) { prefs.putDouble(key, value) }
+  def getDouble(key: String, defValue: Double): Double = prefs.getDouble(key, defValue)
+  def putFloat(key: String, value: Float) { prefs.putFloat(key, value) }
+  def getFloat(key: String, defValue: Float): Float = prefs.getFloat(key, defValue)
+
   def toXmlString(): String = {
     val os = new ByteArrayOutputStream()
     prefs.exportSubtree(os)
