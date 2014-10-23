@@ -209,6 +209,7 @@ object SwingThingsTestApp extends SimpleSwingApplication {
       statusMessage = "Foo"
       progressBar.indeterminate = true
       progressBar.visible = true
+      visible = windowPrefs.getBoolean("statusBar.visible", true)
     }
 
     contents = new BorderPanel {
@@ -218,11 +219,8 @@ object SwingThingsTestApp extends SimpleSwingApplication {
     }
     
     override def preserveUserWindowPrefs(prefs: WindowPreferences) {
-      prefs.put("UserPref1", "This is a user preference. You can name it whatever you like.")
-    }
-    
-    override def initializeUserWindowPrefs(prefs: WindowPreferences) {
-      logger.info(prefs.get("UserPref1", "This is the default."))
-    }
+      prefs.putBoolean("statusBar.visible", statusBar.visible)
+      logger.debug(s"statusBar.visible=" + windowPrefs.getBoolean("statusBar.visible", true))
+    }    
   }
 }

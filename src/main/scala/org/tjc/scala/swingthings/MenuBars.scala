@@ -25,7 +25,7 @@ import scala.swing.MainFrame
 
 class MenuEntry(val name: String, val menu: Menu) {
   private val subMenus = new HashMap[String, MenuEntry]()
-  private var _parent: MenuEntry = null
+  private var p = None: Option[MenuEntry]
 
   def +=(me: MenuEntry): this.type = {
     me.parent = this
@@ -40,9 +40,9 @@ class MenuEntry(val name: String, val menu: Menu) {
     this
   }
 
-  def parent = _parent
+  def parent = p.get
   def parent_=(me: MenuEntry) {
-    _parent = me
+    p = Some(me)
   }
 
   override def toString = {

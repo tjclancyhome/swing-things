@@ -39,7 +39,7 @@ class SwingThingsMainFrame(val appName: String = "SwingThings") extends MainFram
 
   logger.debug(s"Initializing application: $appName")
 
-  private val windowPrefs = WindowPreferences(appName)
+  val windowPrefs = WindowPreferences(appName)
 
   def preserveState: Boolean = preserve
   def preserveState_=(preserve: Boolean) { this.preserve = preserve }

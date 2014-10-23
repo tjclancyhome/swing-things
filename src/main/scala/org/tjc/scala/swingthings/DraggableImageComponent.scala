@@ -56,24 +56,21 @@ class DraggableImageComponent extends DraggableComponent with ImageObserver {
   private var autoSz: Boolean = false
   private var autoSizeDimension: Dimension = new Dimension(0, 0)
 
-  /*
-   * I know, I know. Nulls are bad in Scala!
-   */
-  protected var img: Image = null
+  protected var img = None: Option[Image]
 
   background = Color.black
   peer.setLayout(null)
 
   def autoSize: Boolean = autoSz
   def autoSize_=(as: Boolean) { autoSz = as }
-  def image: Image = img
-  def image_=(i: Image) { img = i }
+  def image: Image = img.get
+  def image_=(i: Image) { img = Some(i) }
 
   override def paint(g: Graphics2D) {
     super.paint(g)
     g.clearRect(0, 0, size.width, size.height)
-    if (img != null) {
-      g.drawImage(img, 0, 0, size.width, size.height, peer)
+    if (img != None) {
+      g.drawImage(img.get, 0, 0, size.width, size.height, peer)
     }
     else {
       g.setColor(background)
